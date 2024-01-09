@@ -1,4 +1,5 @@
 FROM maven:3.6.3-jdk-11 AS builder
+USER root
 WORKDIR /boxfuse1
 COPY pom.xml .
 COPY src/ /boxfuse1/src/
