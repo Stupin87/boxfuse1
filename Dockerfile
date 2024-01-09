@@ -6,5 +6,5 @@ RUN mvn -B -DskipTests clean package
 
 FROM openjdk:11
 WORKDIR /boxfuse1
-COPY --from=builder /boxfuse1/target/*.jar /boxfuse1/hello-1.0.war
+COPY --from=builder /boxfuse1/target/hello-1.0.war /boxfuse1/hello-1.0.war
 RUN docker push 158.160.47.233:8081/boxfuse1:${BUILD_NUMBER}
