@@ -9,9 +9,9 @@ pipeline {
 
         stage('Build and Push') {
             steps {
-                dir('boxfuse1') {
+                dir('boxfuse1/') {
                     script {
-                        sh 'docker build -t home/keglia/boxfuse1/Dockerfile .'
+                        sh 'docker build -f /boxfuse1/Dockerfile -t boxfuse1 .'
                         sh 'docker tag boxfuse1:latest 158.160.47.233:8123/boxfuse1:2'
                         sh 'docker push 158.160.47.233:8123/boxfuse1:2'
                     }
