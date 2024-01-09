@@ -1,6 +1,12 @@
 pipeline {
     agent any
-
+    stages {
+       stage('git') {
+          steps {
+            git url: 'https://github.com/Stupin87/boxfuse1.git'
+          }
+       } 
+    }
     stages {
         stage('Build') {
             steps {
