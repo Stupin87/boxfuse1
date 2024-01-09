@@ -17,8 +17,7 @@ pipeline {
             steps {
                 script {
                     withDockerRegistry([credentialsId: 'bc601eaa-d042-49f8-891c-ac989a887f3d', url: '158.160.47.233:8081'])
-                    sh "docker tag boxfuse1:latest 158.160.47.233:8123/boxfuse1:2"
-                    sh "docker push 158.160.47.233:8123/boxfuse1:2"
+                    dockerImage.push()
                 }
             }
         }
