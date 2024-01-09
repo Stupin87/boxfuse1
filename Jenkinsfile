@@ -1,24 +1,22 @@
 pipeline {
     agent any
-    environment {
-        registry = "158.160.47.233:8081"
-        imageName = '158.160.47.233:8081/boxfuse1'
-        dockerImage = 'boxfuse1'
-    }
+
     stages {
         stage('Build') {
             steps {
-                script {
-                    dockerImage = docker.build(imageName, "--file Dockerfile .")
+                dir('boxfuse1/'){
+                  script{
+                    sh 'docker build -t home/keglia/boxfuse1/Dockerfile .'
+                    sh 'docker tag boxfuse1:latest 158.160.47.233:8123/boxfuse1:2'
+            }
                 }
             }
         }
-        stage('Push to Nexus') {
+        
+        stage('Publish to Nexus') {
             steps {
-                script {
-                    withDockerRegistry([credentialsId: 'bc601eaa-d042-49f8-891c-ac989a887f3d', url: '158.160.47.233:8081'])
-                    dockerImage.push()
-                }
+                sh 'docker push 158.160.47.233:8123/boxfuse1:1'
+                
             }
         }
     }
