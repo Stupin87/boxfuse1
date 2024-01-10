@@ -29,7 +29,7 @@ pipeline {
         
 		stage('Deploy') {
             steps {
-                sh 'docker run -d -p 8080:8080 158.160.47.233:8123/boxfuse1:2'
+                sh 'docker run -d -p 8585:8585 158.160.47.233:8123/boxfuse1:2'
             }
         }
     }
