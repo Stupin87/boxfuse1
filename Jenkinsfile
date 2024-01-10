@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         NEXUS_CREDENTIALS = credentials('baf7b7ca-b8bd-4b73-8083-b902943cf70a')
-        NEXUS_URL = 'http://158.160.101.95:8081'
+        NEXUS_URL = 'http:// 8081'
         DOCKER_IMAGE_TAG = 'boxfuse1:v1.0.0'
     }
     stages {
