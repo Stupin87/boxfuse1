@@ -1,31 +1,35 @@
 pipeline {
-    agent any
-    environment {
-        NEXUS_CREDENTIALS = credentials('26f2ddee-0e23-4038-8234-1f59b4582679')
-        NEXUS_URL = 'http://158.160.101.95:8081'
-        DOCKER_IMAGE_TAG = 'boxfuse1:v1.0.0'
+    agent {
+        docker {
+            image 'maven:3.6.3-openjdk-11'
+        }
     }
+
     stages {
         stage('Build') {
             steps {
-                script {
-                    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'NEXUS_CREDENTIALS']]) {
-                        sh "docker login -u username -p password"
-                        sh "docker pull $NEXUS_URL/$DOCKER_IMAGE_TAG"
-                    }
-                }
+                sh 'mvn clean package'
             }
         }
-        stage('Build and Push Docker Image') {
+
+        stage('Build Docker Image') {
             steps {
-                script {
-                    sh "docker run -v /var/run/docker.sock:/var/run/docker.sock $NEXUS_URL/$DOCKER_IMAGE_TAG sh -c 'cd /app && mvn clean package'"
-                    sh "docker build -t boxfuse1:$BUILD_NUMBER -f Dockerfile.app ."
-                    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'NEXUS_CREDENTIALS']]) {
-                        sh "docker tag boxfuse1:$BUILD_NUMBER $NEXUS_URL/boxfuse1:$BUILD_NUMBER"
-                        sh "docker push $NEXUS_URL/boxfuse1:$BUILD_NUMBER"
-                    }
-                }
+                sh 'docker build -t boxfuse1 .'
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                sh 'docker login -u admin -p Keglia8905823!'
+                sh 'docker tag boxfuse1:1 158.160.47.233:8123/boxfuse1:2'
+                sh 'docker push 158.160.47.233:8123/boxfuse1:2'
+            }
+        }
+
+        
+		stage('Deploy') {
+            steps {
+                sh 'docker run -d -p 8080:8080 158.160.47.233:8123/boxfuse1:2'
             }
         }
     }
