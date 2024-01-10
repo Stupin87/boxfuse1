@@ -9,7 +9,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'your-docker-hub-credentials']]) {
+                    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: NEXUS_CREDENTIALS]]) {
                         sh "docker login -u username -p password"
                         sh "docker pull $NEXUS_URL/$DOCKER_IMAGE_TAG"
                     }
@@ -21,7 +21,7 @@ pipeline {
                 script {
                     sh "docker run -v /var/run/docker.sock:/var/run/docker.sock $NEXUS_URL/$DOCKER_IMAGE_TAG sh -c 'cd /app && mvn clean package'"
                     sh "docker build -t your-application:$BUILD_NUMBER -f Dockerfile.app ."
-                    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'your-docker-hub-credentials']]) {
+                    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: NEXUS_CREDENTIALS ]]) {
                         sh "docker tag your-application:$BUILD_NUMBER $NEXUS_URL/your-application:$BUILD_NUMBER"
                         sh "docker push $NEXUS_URL/your-application:$BUILD_NUMBER"
                     }
