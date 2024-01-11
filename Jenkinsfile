@@ -12,7 +12,7 @@ pipeline {
             }
         }
         stage('Build') {
-            agent {label 'maven'}
+            
             steps {
                
                 sh 'mvn clean package'
