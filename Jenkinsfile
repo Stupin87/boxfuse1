@@ -23,7 +23,7 @@ pipeline {
            
             steps {
                 
-                sh 'docker build -f /boxfuse1/Dockerfile.app -t boxfuse1 .'
+                sh 'docker build -t boxfuse1 .'
             }
         }
         stage('Push to Nexus') {
