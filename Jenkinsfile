@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'stupin87/boxfuse1'
+            image 'stupin87/boxfuse1:v1.0.0'
             label 'test'
         }
     }
