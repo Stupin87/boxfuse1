@@ -1,9 +1,8 @@
 pipeline {
     agent {
-        docker {
+        maven {
             image 'maven:3.6.3-openjdk-11'
-            label 'maven'
-                    }
+                                }
     }
     stages {
         stage('Cloning repository') {
