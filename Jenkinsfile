@@ -2,6 +2,7 @@ pipeline {
     agent {
         docker {
             image 'maven:3.6.3-openjdk-11'
+            label 'test'
                                 }
     }
     stages {
@@ -19,14 +20,14 @@ pipeline {
             }
         }
         stage('Build Docker image') {
-            agent {label 'maven'}
+           
             steps {
                 
                 sh 'docker build -f /boxfuse1/Dockerfile.app -t boxfuse1 .'
             }
         }
         stage('Push to Nexus') {
-            agent {label 'maven'}
+            
             steps {
                 withCredentials([usernamePassword(credentialsId: '26f2ddee-0e23-4038-8234-1f59b4582679', usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {
                 sh 'docker login 158.160.38.190:8081 -u $NEXUS_USERNAME -p $NEXUS_PASSWORD'
